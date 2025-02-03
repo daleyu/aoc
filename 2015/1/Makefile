@@ -13,4 +13,4 @@ run2: q2
 	./q2 <q2.sample.txt
 
 clean:
-	rm -f q1 q2
+	rm -f q1 q3
