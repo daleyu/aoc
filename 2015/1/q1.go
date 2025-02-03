@@ -2,8 +2,7 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/daleyu/aoc-practice/utils/stack"
+	"github.com/daleyu/aoc-practice/data-structures/stack"
 )
 
 func main() {
@@ -11,7 +10,7 @@ func main() {
 
 	//Use a stack and maintain polarity on if it is negative or not
 	polarity := 1
-	s := stack.New()
+	s := stack.NewStack()
 
 	fmt.Printf("Floor: %x", result)
 
