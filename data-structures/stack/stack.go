@@ -34,3 +34,21 @@ func (s *stack) Pop() (int, error) {
 	s.s = s.s[:l-1]
 	return res, nil
 }
+
+func (s *stack) Peek() (int, error) {
+	s.lock.Lock()
+	defer s.lock.Unlock()
+
+	l := len(s.s)
+	if l == 0 {
+		return 0, errors.New("empty Stack")
+	}
+
+	result := s.s[l-1]
+
+	return result, nil
+}
+
+func (s *stack) Length() (int, error) {
+	return len(s.s), nil
+}
