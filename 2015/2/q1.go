@@ -20,14 +20,22 @@ func main() {
 	check(err)
 	for _, line := range strings.Split(string(input), "\n") {
 		dims := strings.Split(line, "x")
+		extraSlack, e := strconv.Atoi(dims[0])
+		check(e)
+		for _, side := range dims {
+			if side <= extraSlack {
+				extraSlack = side
+			}
+		}
 		l, e := strconv.Atoi(dims[0])
 		check(e)
 		w, e := strconv.Atoi(dims[1])
 		check(e)
 		h, e := strconv.Atoi(dims[2])
 		check(e)
-		result += (2 * l * w) + (2 * w * h) + (2 * l * h)
+		fmt.Printf("%d * %d * %d = %d\n", l, w, h, result)
+		result += (2 * l * w) + (2 * w * h) + (2 * l * h) + extraSlack
 	}
 
-	fmt.Printf("Total amount of Paper: %d", result)
+	fmt.Printf("Total amount of Paper: %d\n", result)
 }

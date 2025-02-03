@@ -13,4 +13,4 @@ run2: q2
 	./q2 <input.txt
 
 clean:
-	r
+	rm -f q1 q3
