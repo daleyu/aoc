@@ -21,9 +21,8 @@ func (s *IntSet) Has(num int) bool {
 	return present
 }
 
-func (s *IntSet) Clear() bool {
-	clear(s.list)
-	return true
+func (s *IntSet) Clear() {
+	s.list = make(map[int]struct{})
 }
 
 func (s *IntSet) Keys() []int {
@@ -63,7 +62,7 @@ func (s *StringSet) Remove(input string) bool {
 }
 
 func (s *StringSet) Clear() {
-	clear(s.list)
+	s.list = make(map[string]struct{})
 }
 
 func (s *StringSet) Has(input string) bool {
