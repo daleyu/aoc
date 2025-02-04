@@ -1,86 +1,93 @@
 package set
 
 // we need both an int set and also a string set
-type IntSet map[int]struct{}
+type IntSet struct {
+	list map[int]struct{}
+}
 
 //methods: size, clear, remove, add, has, keys
 
-func (s IntSet) size() int {
-	return len(s)
+func (s *IntSet) Size() int {
+	return len(s.list)
 }
 
-func (s IntSet) remove(num int) bool {
-	delete(s, num)
+func (s *IntSet) Remove(num int) bool {
+	delete(s.list, num)
 	return true
 }
 
-func (s IntSet) has(num int) bool {
-	_, present := s[num]
+func (s *IntSet) Has(num int) bool {
+	_, present := s.list[num]
 	return present
 }
 
-func (s IntSet) clear() bool {
-	clear(s)
+func (s *IntSet) Clear() bool {
+	clear(s.list)
+	return true
 }
 
-func (s IntSet) keys() []int {
+func (s *IntSet) Keys() []int {
 	var keys []int
-	for v := range s {
+	for v := range s.list {
 		keys = append(keys, v)
 	}
 	return keys
 }
 
-func (s IntSet) add(num int) bool {
-	s[num] = struct{}{}
+func (s *IntSet) Add(num int) bool {
+	s.list[num] = struct{}{}
 	return true
 }
 
-func NewIntSet(input []int) IntSet {
+func NewIntSet(input ...int) *IntSet {
 	s := IntSet{}
+	s.list = make(map[int]struct{})
 	for _, v := range input {
-		s[v] = struct{}{}
+		s.list[v] = struct{}{}
 	}
-	return s
+	return &s
 }
 
-type StringSet map[string]struct{}
+type StringSet struct {
+	list map[string]struct{}
+}
 
-func (s StringSet) add(input string) bool {
-	s[input] = struct{}{}
+func (s *StringSet) Add(input string) bool {
+	s.list[input] = struct{}{}
 	return true
 }
 
-func (s StringSet) remove(input string) bool {
-	delete(s, input)
+func (s *StringSet) Remove(input string) bool {
+	delete(s.list, input)
 	return true
 }
 
-func (s StringSet) clear() {
-	clear(s)
+func (s *StringSet) Clear() {
+	clear(s.list)
 }
 
-func (s StringSet) has(input string) bool {
-	_, present := s[input]
+func (s *StringSet) Has(input string) bool {
+	_, present := s.list[input]
 	return present
 }
 
-func (s StringSet) keys() []string {
+func (s *StringSet) Keys() []string {
 	var keys []string
-	for v := range s {
+	for v := range s.list {
 		keys = append(keys, v)
 	}
 	return keys
 }
 
-func (s StringSet) size() int {
-	return len(s)
+func (s *StringSet) Size() int {
+	return len(s.list)
 }
 
-func NewStringSet(input ...[]string) StringSet {
-	s := StringSet{}
+func NewStringSet(input ...string) *StringSet {
+	s := &StringSet{}
+	s.list = make(map[string]struct{})
 	for _, v := range input {
-		s[v] = struct{}{}
+		s.list[v] = struct{}{}
 	}
 	return s
 }
