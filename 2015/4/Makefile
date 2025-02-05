@@ -1,4 +1,4 @@
-q1:
+main:
 	go build -o main main.go
 
 .PHONY: run1 run2 clean
