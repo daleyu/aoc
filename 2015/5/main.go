@@ -71,17 +71,31 @@ func part1(input string) int {
 }
 
 func part2(input string) int {
-	result := 0
-	for _, line := range strings.Split(input, "\n") {
-		failed := false
-		for i, c := range line {
-			cha := string(c)
+	checkPair := func(line string) bool {
+		for i := 0; i < len(line)-2; i++ {
+			temp := line[i : i+2]
+			for j := i + 2; j < len(line)-1; j++ {
+				if temp == line[j:j+2] {
+					return true
+				}
+			}
 
 		}
-		if failed {
+		return false
+	}
+	result := 0
+	for _, line := range strings.Split(input, "\n") {
+		pairsPossible := checkPair(line)
+		if !pairsPossible {
 			continue
 		}
-		result++
+		for i := 0; i < len(line)-2; i++ {
+			if line[i] == line[i+2] {
+				result++
+				break
+			}
+		}
 	}
+
 	return result
 }
