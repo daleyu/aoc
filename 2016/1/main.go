@@ -50,9 +50,9 @@ func mod(a, b int ) int {
 
 func changeDirection(turn string) {
 	if turn == "L"{
-		index = mod((index + 1), 4)
+		index = ((index + 1) % 4)
 	}else if turn == "R" {
-		index = mod((index - 1), 4)
+		index = ((index + 3) % 4)
 	}
 }
 
@@ -62,10 +62,11 @@ func part1(input string) int{
 	for _, move := range strings.Split(input, ","){
 		move = strings.TrimSpace(move)
 		turn := string(move[0])
-		magnitude, e := strconv.Atoi(string(move[1]))
+		magnitude, e := strconv.Atoi(string(move[1:]))
 		check(e)
 		fmt.Println(turn)
 		changeDirection(turn)
+
 		x += directions[index][0] * magnitude
 		y += directions[index][1] * magnitude
 		fmt.Println(magnitude)
