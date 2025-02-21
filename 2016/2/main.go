@@ -86,6 +86,20 @@ func part1(input string) int{
 
 func part2(input string) int{
 	result := 0 
+	var mapping = map[string][]int{
+		"U": {-1,0},
+		"D": {1,0},
+		"L": {0,-1},
+		"R": {0,1},
+	}
+	var phonePad = [][]string{
+		{"", ""},
+		{"", ""},
+		{"", ""},
+		{"", ""},
+		{"", ""},
+	}
+
 
 	return result
 }
