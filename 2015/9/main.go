@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
-	"strings"
+	"math"
 	"os"
+	"strconv"
+	"strings"
 )
 
 func check(e error) {
@@ -13,22 +15,9 @@ func check(e error) {
 	}
 }
 
-type Graph struct {
-	NumNodes 	int
-	Nodes		[][]Edges
-}
+type Graph map[string]map[string]int
 
-type Edges struct {
-	From 	string
-	To		string
-	weight 	int
-}
-
-func NewGraph() *Graph{
-
-}
-
-func main(){
+func main() {
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: go run main.go <filename>")
 		os.Exit(1)
@@ -40,32 +29,75 @@ func main(){
 	check(err)
 	input_str := string(input)
 
-	resultPart1 := part1(input_str)
-	fmt.Printf("Part 1: %d\n", resultPart1)
-
-
-	resultPart2 := part2(input_str)
-	fmt.Printf("Part 2: %d\n", resultPart2)
+	resultPart1, resultPart2 := part1(input_str)
+	fmt.Printf("Part 1: %d\nPart 2: %d \n", resultPart1, resultPart2)
 }
 
-func part1(input string) int{
-	result := 0 
-	graph := map[
-	for _, line := range strings.Split(input, "\n"){
-		parts := strings.Split(line, " ")
-		if len(parts) < 2{
-			fmt.Println("Something is wrong with the input")
+func part1(input string) (int, int) {
+	graph := make(Graph)
+	// create the graph
+	for _, line := range strings.Split(input, "\n") {
+		if len(line) <= 0 {
+			continue
 		}
-		start, end := parts[0], parts[1]
-
+		parts := strings.Split(line, " ")
+		if len(parts) < 2 {
+			fmt.Println("Something is wrong with the input")
+			os.Exit(1)
+		}
+		start, end := parts[0], parts[2]
+		weight, e := strconv.Atoi(parts[4])
+		check(e)
+		if graph[start] == nil {
+			graph[start] = make(map[string]int)
+		}
+		if graph[end] == nil {
+			graph[end] = make(map[string]int)
+		}
+		graph[start][end] = weight
+		graph[end][start] = weight
 	}
 
-	return result
+	min := math.MaxInt32
+	max := 0
+
+	// run traveling statesman
+	for node := range graph {
+		visited := map[string]bool{node: true}
+		min_dist, max_dist := dfs(graph, node, visited)
+		if min_dist < min {
+			min = min_dist
+		}
+		if max_dist > max {
+			max = max_dist
+		}
+	}
+	return min, max
 }
 
-func part2(input string) int{
-	result := 0 
+func dfs(graph Graph, node string, visited map[string]bool) (int, int) {
+	if len(visited) == len(graph) {
+		return 0, 0
+	}
+	min := math.MaxInt32
+	max := 0
+	for neigh := range graph {
+		if visited[neigh] {
+			continue
+		}
 
-	return result
+		visited[neigh] = true
+		weight := graph[node][neigh]
+		min_dist, max_dist := dfs(graph, neigh, visited)
+		if weight+min_dist < min {
+			min = weight + min_dist
+		}
+		if weight+max_dist > max {
+			max = weight + max_dist
+		}
+
+		delete(visited, neigh)
+	}
+
+	return min, max
 }
-
