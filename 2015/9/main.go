@@ -2,10 +2,12 @@ package main
 
 import (
 	"fmt"
+
 	"math"
 	"os"
-	"strconv"
 	"strings"
+
+	"strconv"
 )
 
 func check(e error) {

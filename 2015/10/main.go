@@ -25,3 +25,8 @@ func main() {
 	check(err)
 	resultPart1 := part1(string(input))
 }
+
+func part1(input string) int {
+
+	return result
+}
